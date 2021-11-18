@@ -12,4 +12,7 @@ export default {};
 @import "../assets/scss/variables.scss";
 @import "../assets/scss/common.scss";
 
+h1 {
+	color: red;
+}
 </style>
