@@ -13,17 +13,34 @@
 						placeholder="Inserire nome film"
 						v-model="movieUserInput"
 					/>
-					<button class="w-auto ms-3 p-2 border-primary" @click="callApi">
+					<button
+						class="w-auto ms-3 p-2 border-primary"
+						@click.prevent="callApi"
+					>
 						Inizia >
 					</button>
 				</form>
-				<div class="movies">
-					<div class="movie" v-for="movie in movies" :key="movie.id">
-						<h3>Titolo: {{ movie.title.toUpperCase() }}</h3>
-						<h4>Titolo originale: {{ movie.original_title }}</h4>
-						<h4>Lingua originale: {{ movie.original_language }}</h4>
-						<h4>Voto: {{ movie.vote_count }}</h4>
+
+				<div class="movies" v-for="movie in movies" :key="movie.id">
+					<div class="movie">
+						<ul>
+							<li>
+								<h4>Titolo film: {{ movie.title }}</h4>
+							</li>
+							<li>
+								<h5>Titolo originario del film: {{ movie.original_title }}</h5>
+							</li>
+							<li>
+								<h6>
+									Lingua originale del film: {{ movie.original_language }}
+								</h6>
+							</li>
+							<li>
+								<h5>Voto film: {{ movie.vote_count }}</h5>
+							</li>
+						</ul>
 					</div>
+					<hr />
 				</div>
 			</div>
 		</div>
@@ -59,11 +76,12 @@ export default {
 	methods: {
 		callApi() {
 			const urlCompiled = `${this.movies_url}?api_key=${this.api_key}&query=${this.movieUserInput}`;
+			console.log(urlCompiled);
 			axios
 				.get(urlCompiled)
 				.then((resp) => {
 					console.log(resp);
-					this.movies = resp.data.response;
+					this.movies = resp.data.results;
 				})
 				.catch((err) => {
 					console.log("OPS! C'è un errore: ", err);
@@ -78,4 +96,8 @@ export default {
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "./assets/scss/common.scss";
 @import "./assets/scss/variables.scss";
+
+.movie {
+	text-align: left;
+}
 </style>
